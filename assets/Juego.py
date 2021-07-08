@@ -9,7 +9,7 @@ sprite_scaling_laser = 0.8
 coin_count = 10
 ancho_pantalla = 800
 alto_pantalla = 600
-titulo = "Noentiendo Na"
+titulo = "Nintendont"
 bullet_speed = 5
 
 particle_gravity = 0.05
@@ -21,13 +21,12 @@ particle_speed_range = 2.5
 particle_count = 20
 particle_radius = 3
 
-particle_colors = [ 
-    arcade.color.ALIZARIN_CRIMSON,
-    arcade.color.COQUELICOT,
-    arcade.color.LAVA,
-    arcade.color.KU_CRIMSON,
-    arcade.color.DARK_TANGERINE 
-]
+particle_colors = [ arcade.color.ALIZARIN_CRIMSON,
+                    arcade.color.COQUELICOT,
+                    arcade.color.LAVA,
+                    arcade.color.KU_CRIMSON,
+                    arcade.color.DARK_TANGERINE ]
+
 particle_sparkle_chance = 0.02
 
 
@@ -99,12 +98,15 @@ class GameView(arcade.View):
         self.bullet_blue_list = None
         self.bullet_red_list = None
         self.explosions_list = None
+        
         self.background = None
         self.frame_count = 0
         self.enemy_list = None
-        self.enemy_textures = None
+
         self.player = None
         self.score = 0
+
+
         self.gun_sound = arcade.sound.load_sound(":resources:sounds/laser2.wav")
         self.hit_sound = arcade.sound.load_sound(":resources:sounds/explosion2.wav")
         
@@ -229,120 +231,27 @@ class GameView(arcade.View):
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         self.player.center_x = x
         self.player_center_y = 20
-
-
 class Instruction_View(arcade.View):
-    def on_show(self):
-        arcade.set_background_color(arcade.csscolor.LIGHT_YELLOW)
-        arcade.set_viewport(0, ancho_pantalla - 1, 0, alto_pantalla - 1)
+        def on_show(self):
+            arcade.set_background_color(arcade.csscolor.LIGHT_YELLOW)
 
-
-    def on_draw(self):
-        arcade.start_render()
-        arcade.draw_text("ANIQUILA A LOS ALIENS!", ancho_pantalla / 2, alto_pantalla / 2, arcade.color.BLACK_OLIVE, font_size=50, anchor_x="center")
-        arcade.draw_text("Insertar Ficha", ancho_pantalla / 2, alto_pantalla / 2-75, arcade.color.BLACK_OLIVE, font_size=20, anchor_x="center")
-
-
-    def on_mouse_press(self, _x, _y, _button, _modifiers):
-        moneda = load_sound("assets/moneda.mp3")
-        arcade.sound.play_sound(moneda)
-        game_view = GameView()
-        game_view.setup()
-        self.window.show_view(game_view)
-
-
-class StartGame(arcade.Window):
-    def __init__(self):
-        super().__init__(ancho_pantalla, alto_pantalla, titulo)
-        arcade.set_background_color(arcade.color.RED_BROWN)
-        self.player_list = None
-        self.coin_list = None
-        self.bullet_blue_list = None
-        self.bullet_red_list = None
-        self.explosions_list = None
-        self.background = None
-        self.frame_count = 0
-        self.enemy_list = None
-        self.player = None
-        self.score = 0
-        self.gun_sound = arcade.sound.load_sound(":resources:sounds/laser2.wav")
-        self.hit_sound = arcade.sound.load_sound(":resources:sounds/explosion2.wav")
-
-
-    def setup(self):
-        self.enemy_textures = []
-        texture = arcade.load_texture("assets/alien2.png")
-        self.enemy_textures.append(texture)
-        self.background = arcade.load_texture("assets/BackgroundSpace.png")
-        self.player_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
-        self.bullet_blue_list = arcade.SpriteList()
-        self.bullet_red_list = arcade.SpriteList()
-        self.explosions_list = arcade.SpriteList()
-        self.score = 0
-        
-        self.player = arcade.Sprite("assets/spaceship.png", sprite_scaling_player)
-        self.player.center_y = 40
-        self.player_list.append(self.player)
-        musica = load_sound("assets/Intergalactic-Odyssey.mp3")
-        arcade.sound.play_sound(musica)
-
-        x_count = 7
-        x_start = 380
-        x_spacing = 60
-
-        y_count = 5
-        y_start = 420
-        y_spacing = 40
-
-        for x in range(x_start, x_spacing * x_count + x_start, x_spacing):
-            for y in range(y_start, y_spacing * y_count + y_start, y_spacing):
-                enemy = arcade.Sprite("assets/alien2.png")
-                enemy.scale = sprite_scaling_coin
-                enemy.texture = self.enemy_textures[0]
-                enemy.center_x = x
-                enemy.center_y = y
-                self.enemy_list.append(enemy)
-
-
-    def update_enemies(self):
-        for enemy in self.enemy_list:
-            enemy.center_x += self.enemy_change_x
-
-        move_down = False
-
-        for enemy in self.enemy_list:
-            if enemy.right > RIGHT_ENEMY_BORDER and self.enemy_change_x > 0:
-                self.enemy_change_x *= -1
-                move_down = True
-            if enemy.left < LEFT_ENEMY_BORDER and self.enemy_change_x < 0:
-                self.enemy_change_x *= -1
-                move_down = True
-
-        if move_down:
-            for enemy in self.enemy_list:
-                enemy.center_y -= ENEMY_MOVE_DOWN_AMOUNT
-                if self.enemy_change_x > 0:
-                    enemy.texture = self.enemy_textures[0]
-                else:
-                    enemy.texture = self.enemy_textures[0]
-
-
-    def on_update(self, delta_time):
-        if self.game_state == GAME_OVER:
-            return
-
-        self.update_enemies()
-
-
+            arcade.set_viewport(0, ancho_pantalla - 1, 0, alto_pantalla - 1)
+        def on_draw(self):
+            arcade.start_render()
+            arcade.draw_text("ANIQUILA A LOS ALIENS!", ancho_pantalla / 2, alto_pantalla / 2,
+                            arcade.color.BLACK_OLIVE, font_size=50, anchor_x="center")
+            arcade.draw_text("Insert Coin", ancho_pantalla / 2, alto_pantalla / 2-75,
+                            arcade.color.BLACK_OLIVE, font_size=20, anchor_x="center")
+        def on_mouse_press(self, _x, _y, _button, _modifiers):
+            moneda = load_sound("assets/moneda.mp3")
+            arcade.sound.play_sound(moneda)
+            game_view = GameView()
+            game_view.setup()
+            self.window.show_view(game_view)
 def main():
-    window = StartGame()
-    window.setup()
+    window = window = arcade.Window(ancho_pantalla, alto_pantalla, titulo)
     start_view = Instruction_View()
     window.show_view(start_view)
     arcade.run()
-
-
 if __name__ == "__main__":
     main()
